@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SecureShare | Secure Image Sharing</title>
+    <title>SecureShare | Secure File Sharing</title>
 
     <style>
         * {
@@ -12,68 +12,64 @@
             padding: 0;
             box-sizing: border-box;
             font-family: Arial, sans-serif;
-            scroll-behavior: smooth;
         }
 
         body {
-            background: #f5f8ff;
-            color: #172033;
+            background: linear-gradient(135deg, #07111f, #0d1b2e, #102a43);
+            color: white;
+            min-height: 100vh;
         }
 
         /* NAVBAR */
         nav {
             width: 100%;
-            padding: 18px 7%;
+            padding: 22px 7%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            position: sticky;
-            top: 0;
-            z-index: 100;
         }
 
         .logo {
-            font-size: 25px;
+            font-size: 28px;
             font-weight: bold;
-            color: #2563eb;
+            color: #ffffff;
         }
 
         .logo span {
-            color: #111827;
+            color: #38bdf8;
         }
 
-        nav ul {
-            list-style: none;
+        .nav-links {
             display: flex;
             gap: 30px;
+            align-items: center;
         }
 
-        nav ul li a {
+        .nav-links a {
+            color: #dbeafe;
             text-decoration: none;
-            color: #374151;
-            font-weight: 500;
+            font-size: 15px;
         }
 
-        nav ul li a:hover {
-            color: #2563eb;
+        .nav-links a:hover {
+            color: #38bdf8;
         }
 
-        .signin-btn {
-            background: #2563eb;
-            color: white !important;
+        .nav-button {
+            background: #38bdf8;
+            color: #06111f !important;
             padding: 10px 20px;
-            border-radius: 8px;
+            border-radius: 25px;
+            font-weight: bold;
         }
 
         /* HERO */
         .hero {
-            min-height: 85vh;
+            min-height: 75vh;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 70px 8%;
+            padding: 50px 7%;
             gap: 50px;
         }
 
@@ -81,188 +77,217 @@
             max-width: 600px;
         }
 
-        .hero-text h1 {
-            font-size: 52px;
-            line-height: 1.15;
-            margin-bottom: 20px;
+        .tag {
+            display: inline-block;
+            padding: 8px 15px;
+            border: 1px solid #38bdf8;
+            border-radius: 20px;
+            color: #7dd3fc;
+            font-size: 14px;
+            margin-bottom: 22px;
         }
 
-        .hero-text h1 span {
-            color: #2563eb;
+        h1 {
+            font-size: 58px;
+            line-height: 1.1;
+            margin-bottom: 22px;
+        }
+
+        h1 span {
+            color: #38bdf8;
         }
 
         .hero-text p {
+            color: #cbd5e1;
             font-size: 18px;
             line-height: 1.7;
-            color: #5b6475;
-            margin-bottom: 30px;
+            margin-bottom: 32px;
         }
 
-        .get-started {
-            display: inline-block;
+        .buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .primary-btn {
             text-decoration: none;
-            background: #2563eb;
+            background: #38bdf8;
+            color: #06111f;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            background: #7dd3fc;
+        }
+
+        .secondary-btn {
+            text-decoration: none;
+            border: 1px solid #475569;
             color: white;
             padding: 14px 28px;
-            border-radius: 9px;
-            font-size: 17px;
-            font-weight: bold;
+            border-radius: 30px;
+            transition: 0.3s;
         }
 
-        .get-started:hover {
-            background: #1d4ed8;
+        .secondary-btn:hover {
+            border-color: #38bdf8;
+            color: #38bdf8;
         }
 
         /* SECURITY CARD */
         .security-card {
-            width: 350px;
-            min-height: 350px;
-            background: white;
+            width: 360px;
+            padding: 35px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(56, 189, 248, 0.25);
             border-radius: 25px;
-            box-shadow: 0 15px 40px rgba(37,99,235,0.15);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            text-align: center;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.35);
         }
 
         .lock {
-            font-size: 80px;
-            margin-bottom: 20px;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background: rgba(56, 189, 248, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
         }
 
         .security-card h2 {
-            color: #2563eb;
+            text-align: center;
             margin-bottom: 12px;
         }
 
         .security-card p {
-            color: #6b7280;
+            text-align: center;
+            color: #94a3b8;
             line-height: 1.6;
-        }
-
-        /* SECTIONS */
-        section {
-            padding: 75px 8%;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 35px;
-            margin-bottom: 45px;
-        }
-
-        /* WORKFLOW */
-        .workflow {
-            background: white;
-        }
-
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 20px;
-        }
-
-        .step {
-            background: #f5f8ff;
-            padding: 25px 18px;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        .step-number {
-            width: 45px;
-            height: 45px;
-            margin: 0 auto 15px;
-            background: #2563eb;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .step h3 {
-            margin-bottom: 10px;
-        }
-
-        .step p {
-            color: #6b7280;
             font-size: 14px;
-            line-height: 1.5;
+        }
+
+        .security-item {
+            margin-top: 22px;
+            padding: 13px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            color: #dbeafe;
+            font-size: 14px;
         }
 
         /* ABOUT */
         .about {
+            padding: 70px 7%;
             text-align: center;
         }
 
-        .about p {
-            max-width: 800px;
+        .about h2 {
+            font-size: 35px;
+            margin-bottom: 15px;
+        }
+
+        .about h2 span {
+            color: #38bdf8;
+        }
+
+        .about > p {
+            max-width: 700px;
             margin: auto;
-            font-size: 17px;
-            line-height: 1.8;
-            color: #5b6475;
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            width: 280px;
+            padding: 28px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+        }
+
+        .card-icon {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        .card h3 {
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.6;
         }
 
         /* CONTACT */
         .contact {
-            background: #172554;
-            color: white;
             text-align: center;
+            padding: 60px 20px;
+        }
+
+        .contact h2 {
+            margin-bottom: 15px;
         }
 
         .contact p {
-            margin: 15px 0;
-            color: #dbeafe;
-            font-size: 17px;
+            color: #94a3b8;
         }
 
-        .email {
-            display: inline-block;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
+        .contact a {
+            color: #38bdf8;
             text-decoration: none;
-            margin-top: 10px;
         }
 
         /* FOOTER */
         footer {
-            background: #0f172a;
-            color: #94a3b8;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 25px;
             text-align: center;
-            padding: 20px;
-            font-size: 14px;
+            color: #64748b;
+            font-size: 13px;
         }
 
         /* MOBILE */
-        @media (max-width: 900px) {
+        @media (max-width: 850px) {
+
+            .nav-links a:not(.nav-button) {
+                display: none;
+            }
 
             .hero {
                 flex-direction: column;
                 text-align: center;
+                padding-top: 40px;
             }
 
-            .hero-text h1 {
-                font-size: 40px;
+            .buttons {
+                justify-content: center;
             }
 
-            .steps {
-                grid-template-columns: 1fr;
-            }
-
-            nav ul {
-                gap: 12px;
-                font-size: 14px;
+            h1 {
+                font-size: 42px;
             }
 
             .security-card {
-                width: 90%;
+                width: 100%;
+                max-width: 360px;
             }
         }
     </style>
@@ -270,117 +295,127 @@
 
 <body>
 
-    <!-- NAVIGATION BAR -->
+    <!-- NAVBAR -->
     <nav>
         <div class="logo">
-            🔐 Secure<span>Share</span>
+            Secure<span>Share</span>
         </div>
 
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#workflow">How It Works</a></li>
-            <li><a href="#about">About Us</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li>
-                <a href="web.html" class="signin-btn">Sign In</a>
-            </li>
-        </ul>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#how">How It Works</a>
+            <a href="#contact">Contact</a>
+
+            <!-- CHANGE THIS IF YOUR LOGIN FILE HAS A DIFFERENT NAME -->
+            <a href="login.html" class="nav-button">Sign In</a>
+        </div>
     </nav>
 
 
     <!-- HERO SECTION -->
-    <section class="hero" id="home">
+    <section class="hero">
 
         <div class="hero-text">
 
+            <div class="tag">
+                🔐 Secure • Private • Simple
+            </div>
+
             <h1>
-                Share Your Images
-                <span>Securely.</span>
+                Share Files.<br>
+                <span>Stay Secure.</span>
             </h1>
 
             <p>
-                SecureShare is a secure image-sharing platform designed
-                to protect your images using modern cryptographic
-                techniques. Encrypt your image and share it safely
-                using a unique access code.
+                SecureShare is a secure file-sharing platform designed
+                to protect your files using modern encryption technology.
+                Share your files with confidence while keeping your data private.
             </p>
 
-            <a href="web.html" class="get-started">
-                Get Started →
-            </a>
+            <div class="buttons">
+
+                <!-- CHANGE login.html TO YOUR ACTUAL LOGIN PAGE -->
+                <a href="login.html" class="primary-btn">
+                    Get Started →
+                </a>
+
+                <a href="#how" class="secondary-btn">
+                    Learn More
+                </a>
+
+            </div>
 
         </div>
 
 
+        <!-- SECURITY CARD -->
         <div class="security-card">
 
-            <div class="lock">🔐</div>
+            <div class="lock">
+                🔒
+            </div>
 
-            <h2>Privacy First</h2>
+            <h2>Your Privacy Matters</h2>
 
             <p>
-                Your image is protected through encryption
-                before it is shared with the receiver.
+                Your files are protected with encryption
+                before they are shared.
             </p>
+
+            <div class="security-item">
+                🔐 End-to-end protection
+            </div>
+
+            <div class="security-item">
+                🛡️ Secure file sharing
+            </div>
+
+            <div class="security-item">
+                🔑 Unique security code
+            </div>
 
         </div>
 
     </section>
 
 
-    <!-- WORKFLOW SECTION -->
-    <section class="workflow" id="workflow">
+    <!-- ABOUT -->
+    <section class="about" id="about">
 
-        <h2 class="section-title">
-            How It Works
-        </h2>
+        <h2>Why <span>SecureShare?</span></h2>
 
-        <div class="steps">
+        <p>
+            SecureShare provides a simple way to securely share
+            important files while maintaining privacy and protecting
+            sensitive information.
+        </p>
 
-            <div class="step">
-                <div class="step-number">1</div>
-                <h3>Sign In</h3>
+        <div class="cards">
+
+            <div class="card">
+                <div class="card-icon">🔐</div>
+                <h3>Encrypted</h3>
                 <p>
-                    Enter your details to access SecureShare.
-                </p>
-            </div>
-
-
-            <div class="step">
-                <div class="step-number">2</div>
-                <h3>Upload</h3>
-                <p>
-                    Select the image you want to protect.
-                </p>
-            </div>
-
-
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3>Encrypt</h3>
-                <p>
-                    Your image is encrypted using
+                    Files can be protected using modern
                     cryptographic techniques.
                 </p>
             </div>
 
-
-            <div class="step">
-                <div class="step-number">4</div>
-                <h3>Generate Code</h3>
+            <div class="card">
+                <div class="card-icon">🔑</div>
+                <h3>Unique Code</h3>
                 <p>
-                    A unique code is generated for
-                    secure sharing.
+                    A unique code can be used to control
+                    access to the shared file.
                 </p>
             </div>
 
-
-            <div class="step">
-                <div class="step-number">5</div>
-                <h3>Decrypt</h3>
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h3>Simple</h3>
                 <p>
-                    The receiver enters the correct
-                    code to access the image.
+                    Designed with a simple interface so
+                    users can share files easily.
                 </p>
             </div>
 
@@ -389,20 +424,44 @@
     </section>
 
 
-    <!-- ABOUT US -->
-    <section class="about" id="about">
+    <!-- HOW IT WORKS -->
+    <section class="about" id="how">
 
-        <h2 class="section-title">
-            About SecureShare
-        </h2>
+        <h2>How It <span>Works</span></h2>
 
         <p>
-            SecureShare is a prototype focused on making digital
-            image sharing more private and secure. Our concept
-            uses encryption to protect images during the sharing
-            process while allowing the intended receiver to
-            access the original image through a secure code.
+            SecureShare follows a simple process:
+            upload, protect, share and access.
         </p>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="card-icon">1️⃣</div>
+                <h3>Upload</h3>
+                <p>
+                    Select the file or image you want to share.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">2️⃣</div>
+                <h3>Protect</h3>
+                <p>
+                    The file is processed using encryption.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">3️⃣</div>
+                <h3>Share</h3>
+                <p>
+                    Share the generated access code with
+                    the intended receiver.
+                </p>
+            </div>
+
+        </div>
 
     </section>
 
@@ -410,25 +469,28 @@
     <!-- CONTACT -->
     <section class="contact" id="contact">
 
-        <h2 class="section-title">
-            Contact Us
-        </h2>
+        <h2>Contact Us</h2>
 
         <p>
-            Have questions or want to know more about SecureShare?
+            Have questions or suggestions?
         </p>
 
-        <a class="email" href="mailto:secureshare@gmail.com">
-            📧 secureshare@gmail.com
-        </a>
+        <br>
+
+        <p>
+            📧
+            <a href="mailto:secureshare@gmail.com">
+                secureshare@gmail.com
+            </a>
+        </p>
 
     </section>
 
 
     <!-- FOOTER -->
     <footer>
-        © 2026 SecureShare | Secure. Encrypt. Share.
+        © 2026 SecureShare. All rights reserved.
     </footer>
 
 </body>
-  </html>
+    </html>
