@@ -186,11 +186,11 @@
 
     // Cryptographic Real-Time Key Generator
     function genKey() {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-      const array = new Uint8Array(5);
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const array = new Uint8Array(16);
       window.crypto.getRandomValues(array);
       let key = '';
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 16; i++) {
         key += chars[array[i] % chars.length];
       }
       document.getElementById('enc-key').value = key;
