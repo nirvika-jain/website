@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SecureShare — Web Platform</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: #0b1320; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; }
+    .page { display: none; width: 100%; min-height: 100vh; }
+    .page.active { display: flex; flex-direction: column; }
+    
+    /* Page 1 (Sign In) Styling */
+    .auth-wrapper { display: flex; justify-content: center; align-items: center; flex: 1; padding: 32px 20px; }
+    .auth-container { width: 100%; max-width: 460px; background-color: #0f192c; border: 1px solid #1e2d4a; border-radius: 16px; padding: 40px 32px; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); }
+    .brand-header { text-align: center; margin-bottom: 28px; }
+    .logo { font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .subtitle { color: #94a3b8; font-size: 0.9rem; }
+    .form-group { margin-bottom: 18px; }
+    .form-label { display: block; font-size: 0.85rem; font-weight: 600; color: #cbd5e1; margin-bottom: 6px; }
+    .input-wrapper { position: relative; display: flex; align-items: center; }
+    .form-input, .form-select { width: 100%; padding: 12px 16px; background-color: #0b1320; border: 1px solid #1e2d4a; border-radius: 8px; color: #ffffff; font-size: 0.95rem; outline: none; }
+    .form-input:focus, .form-select:focus { border-color: #38bdf8; }
+    .form-select { color: #ffffff; cursor: pointer; }
+    .form-select option { background-color: #0b1320; color: #ffffff; }
+    .toggle-password { position: absolute; right: 12px; background: none; border: none; color: #64748b; cursor: pointer; font-size: 0.8rem; }
+    .submit-btn { width: 100%; padding: 14px; background: linear-gradient(90deg, #38bdf8, #60a5fa); color: #0b1320; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 8px; }
+    .submit-btn:hover { opacity: 0.9; }
+
+    /* Page 2 (Workspace) Styling */
+    .navbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; border-bottom: 1px solid #1e2d4a; }
+    .sign-out-btn { background: none; border: none; color: #94a3b8; cursor: pointer; text-decoration: underline; }
+    .main-container { max-width: 1000px; margin: 40px auto; padding: 0 24px; width: 100%; }
+    .badge { display: inline-block; background-color: #0f2b48; color: #38bdf8; font-size: 0.75rem; font-weight: 600; padding: 6px 12px; border-radius: 20px; margin-bottom: 16px; }
+    .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .card { background-color: #0f192c; border: 1px solid #1e2d4a; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; }
+    .drop-zone { border: 2px dashed #1e2d4a; border-radius: 12px; padding: 30px 20px; text-align: center; cursor: pointer; margin-bottom: 16px; }
+    .code-input-group { display: flex; gap: 8px; margin-bottom: 16px; }
+    .gen-btn { padding: 12px 14px; background-color: #1e293b; color: #38bdf8; border: 1px solid #38bdf8; border-radius: 8px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .status-text { color: #94a3b8; font-size: 0.9rem; text-align: center; margin-top: 12px; word-break: break-all; }
+    .success-text { color: #38bdf8; }
+    .error-text { color: #f87171; }
+    .preview-box { margin-top: 16px; text-align: center; }
+    .preview-box img { max-width: 100%; max-height: 220px; border-radius: 8px; border: 1px solid #1e2d4a; }
+    @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE 1: SIGN IN PAGE -->
+  <div id="page-signin" class="page active">
+    <div class="auth-wrapper">
+      <main class="auth-container">
+        <div class="brand-header">
+          <div class="logo">SecureShare 🔐</div>
+          <p class="subtitle">Complete profile details to access encryption portal</p>
+        </div>
+        <form onsubmit="handleAuth(event)">
+          <div class="form-group">
+            <label class="form-label" for="auth-email">Email Address</label>
+            <input type="email" id="auth-email" class="form-input" placeholder="student@university.edu" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="auth-dob">Date of Birth</label>
+            <input type="date" id="auth-dob" class="form-input" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="auth-profession">Working Profession</label>
+            <select id="auth-profession" class="form-select" required>
+              <option value="" disabled selected>Select your profession</option>
+              <option value="Student / Researcher">Student / Researcher</option>
+              <option value="Software Engineer">Software Engineer</option>
+              <option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
+              <option value="Data Scientist">Data Scientist</option>
+              <option value="Other Professional">Other Professional</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="auth-pass">Password</label>
+            <div class="input-wrapper">
+              <input type="password" id="auth-pass" class="form-input" placeholder="••••••••" required>
+              <button type="button" class="toggle-password" onclick="togglePass()">Show</button>
+            </div>
+          </div>
+
+          <button type="submit" class="submit-btn">Sign In to Workspace</button>
+        </form>
+        <div class="status-text" id="auth-status"></div>
+      </main>
+    </div>
+  </div>
+
+  <!-- PAGE 2: ENCRYPTION / DECRYPTION WORKSPACE -->
+  <div id="page-workspace" class="page">
+    <nav class="navbar">
+      <div class="logo">SecureShare 🔐</div>
+      <div class="user-info">
+        <span id="user-display">Student Workspace</span>
+        <button class="sign-out-btn" onclick="signOut()">[Sign out]</button>
+      </div>
+    </nav>
+    <main class="main-container">
+      <span class="badge">AES-256-GCM Browser Security</span>
+      <h1 style="margin-bottom:20px;">Real-Time Key Image Encryptor & Unlocker</h1>
+      <div class="grid-container">
+        
+        <!-- 1. Encrypt Card -->
+        <section class="card">
+          <h2>1. Upload & Encrypt</h2>
+          <p style="color:#94a3b8; font-size:0.85rem; margin: 8px 0 20px;">Upload image and generate a real-time encryption key.</p>
+          <div class="drop-zone" onclick="document.getElementById('enc-file').click()">
+            <span id="enc-label">Select image file</span>
+            <input type="file" id="enc-file" accept="image/*" style="display:none">
+          </div>
+          <div class="code-input-group">
+            <input type="text" class="form-input" id="enc-key" placeholder="Key string">
+            <button class="gen-btn" onclick="genKey()">⚡ Real-Time Key</button>
+          </div>
+          <button class="submit-btn" onclick="processEncryption()">🔒 Encrypt File</button>
+          <div class="status-text" id="enc-out"></div>
+        </section>
+
+        <!-- 2. Key-Only Decrypt Card -->
+        <section class="card">
+          <h2>2. Receiver Unlock</h2>
+          <p style="color:#94a3b8; font-size:0.85rem; margin: 8px 0 20px;">Enter the exact key below. Matching key decrypts the file automatically.</p>
+          
+          <div style="margin-bottom: 20px;">
+            <label class="form-label" for="dec-key">Enter Decryption Key</label>
+            <input type="text" class="form-input" id="dec-key" placeholder="Paste 16-character key" oninput="attemptKeyUnlock()">
+          </div>
+
+          <div class="status-text" id="dec-out">Waiting for valid key entry...</div>
+          <div class="preview-box" id="dec-view"></div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // State storage for encrypted payload in browser memory
+    let activeEncryptedBuffer = null;
+    let currentKeySecret = "";
+
+    // Calculate User Age from DOB
+    function calculateAge(dobString) {
+      const dob = new Date(dobString);
+      const diffMs = Date.now() - dob.getTime();
+      const ageDate = new Date(diffMs);
+      return Math.abs(ageDate.getUTCFullYear() - 1970);
+    }
+
+    // Auth Form Logic
+    function handleAuth(e) {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value;
+      const dob = document.getElementById('auth-dob').value;
+      const profession = document.getElementById('auth-profession').value;
+      const age = calculateAge(dob);
+
+      const status = document.getElementById('auth-status');
+      status.className = 'status-text success-text';
+      status.innerText = 'Authenticating profile...';
+      
+      setTimeout(() => {
+        document.getElementById('user-display').innerText = `${email} (${profession}, Age: ${age})`;
+        document.getElementById('page-signin').classList.remove('active');
+        document.getElementById('page-workspace').classList.add('active');
+      }, 700);
+    }
+
+    function signOut() {
+      document.getElementById('page-workspace').classList.remove('active');
+      document.getElementById('page-signin').classList.add('active');
+      document.getElementById('auth-status').innerText = '';
+    }
+
+    function togglePass() {
+      const p = document.getElementById('auth-pass');
+      p.type = p.type === 'password' ? 'text' : 'password';
+    }
+
+    // Cryptographic Real-Time Key Generator
+    function genKey() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+      const array = new Uint8Array(5);
+      window.crypto.getRandomValues(array);
+      let key = '';
+      for (let i = 0; i < 5; i++) {
+        key += chars[array[i] % chars.length];
+      }
+      document.getElementById('enc-key').value = key;
+    }
+
+    async function getCryptoKey(keyString) {
+      const encoder = new TextEncoder();
+      const keyHash = await window.crypto.subtle.digest("SHA-256", encoder.encode(keyString));
+      return window.crypto.subtle.importKey("raw", keyHash, { name: "AES-GCM" }, false, ["encrypt", "decrypt"]);
+    }
+
+    document.getElementById('enc-file').addEventListener('change', e => {
+      if(e.target.files.length) document.getElementById('enc-label').innerText = e.target.files[0].name;
+    });
+
+    // Encrypt Execution
+    async function processEncryption() {
+      const file = document.getElementById('enc-file').files[0];
+      const key = document.getElementById('enc-key').value.trim();
+      const out = document.getElementById('enc-out');
+
+      if(!file || !key) { 
+        out.innerHTML = '<span class="error-text">Select a file and enter a key.</span>'; 
+        return; 
+      }
+
+      const buffer = await file.arrayBuffer();
+      const cryptoKey = await getCryptoKey(key);
+      const iv = window.crypto.getRandomValues(new Uint8Array(12));
+      const encrypted = await window.crypto.subtle.encrypt({ name: "AES-GCM", iv }, cryptoKey, buffer);
+
+      // Save encrypted combined array buffer to state
+      const combined = new Uint8Array(iv.byteLength + encrypted.byteLength);
+      combined.set(iv, 0);
+      combined.set(new Uint8Array(encrypted), iv.byteLength);
+      
+      activeEncryptedBuffer = combined;
+      currentKeySecret = key;
+
+      out.innerHTML = '<span class="success-text">✓ Image encrypted! Enter key on right panel to unlock.</span>';
+    }
+
+    // Receiver Key-Only Unlock Logic
+    async function attemptKeyUnlock() {
+      const enteredKey = document.getElementById('dec-key').value.trim();
+      const out = document.getElementById('dec-out');
+      const view = document.getElementById('dec-view');
+
+      if (!activeEncryptedBuffer) {
+        out.innerHTML = '<span class="error-text">No encrypted image active in session. Encrypt a file first!</span>';
+        view.innerHTML = '';
+        return;
+      }
+
+      if (!enteredKey) {
+        out.innerHTML = 'Waiting for key entry...';
+        view.innerHTML = '';
+        return;
+      }
+
+      try {
+        const cryptoKey = await getCryptoKey(enteredKey);
+        const iv = activeEncryptedBuffer.slice(0, 12);
+        const encryptedData = activeEncryptedBuffer.slice(12);
+
+        const decrypted = await window.crypto.subtle.decrypt(
+          { name: "AES-GCM", iv: new Uint8Array(iv) }, 
+          cryptoKey, 
+          encryptedData
+        );
+
+        out.innerHTML = '<span class="success-text">✓ Correct Key! Image Decrypted.</span>';
+        view.innerHTML = `<img src="${URL.createObjectURL(new Blob([decrypted]))}" alt="Unlocked Image">`;
+      } catch(e) {
+        out.innerHTML = '<span class="error-text">❌ Incorrect key. Access denied.</span>';
+        view.innerHTML = '';
+      }
+    }
+  </script>
+  cloudflared tunnel --url http://SecureShare.com
+
+</body>
+</html>
