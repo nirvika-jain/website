@@ -195,6 +195,7 @@
       }
       document.getElementById('enc-key').value = key;
     }
+    <input type="text" class="form-input" id="dec-key" placeholder="Paste 5-character key" oninput="attemptKeyUnlock()">
 
     async function getCryptoKey(keyString) {
       const encoder = new TextEncoder();
@@ -270,7 +271,7 @@
       }
     }
   </script>
-  cloudflared tunnel --url http://SecureShare.com
+  
 
 </body>
 </html>
