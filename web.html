@@ -130,7 +130,7 @@
           
           <div style="margin-bottom: 20px;">
             <label class="form-label" for="dec-key">Enter Decryption Key</label>
-            <input type="text" class="form-input" id="dec-key" placeholder="Paste 16-character key" oninput="attemptKeyUnlock()">
+            <input type="text" class="form-input" id="dec-key" placeholder="Paste 5-character key" oninput="attemptKeyUnlock()">
           </div>
 
           <div class="status-text" id="dec-out">Waiting for valid key entry...</div>
@@ -187,10 +187,10 @@
     // Cryptographic Real-Time Key Generator
     function genKey() {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      const array = new Uint8Array(16);
+      const array = new Uint8Array(5);
       window.crypto.getRandomValues(array);
       let key = '';
-      for (let i = 0; i < 16; i++) {
+      for (let i = 0; i < 5; i++) {
         key += chars[array[i] % chars.length];
       }
       document.getElementById('enc-key').value = key;
